@@ -1,5 +1,6 @@
 ---
-title: 2: The Laptop Story
+layout: nil
+title: "2: The Laptop Story"
 categories:
 - travel
 ---

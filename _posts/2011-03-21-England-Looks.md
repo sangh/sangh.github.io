@@ -1,5 +1,6 @@
 ---
-title: 5: I'm in Love With The Way England Looks
+layout: nil
+title: "5: I'm in Love With The Way England Looks"
 categories:
 - travel
 ---

@@ -1,5 +1,6 @@
 ---
-title: Log # 4: Finland
+layout: nil
+title: "Log # 4: Finland"
 categories:
 - travel
 ---

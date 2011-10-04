@@ -1,5 +1,6 @@
 ---
-title: 3rd Log, India Denouement
+layout: nil
+title: "3rd Log, India Denouement"
 categories:
 - travel
 ---
