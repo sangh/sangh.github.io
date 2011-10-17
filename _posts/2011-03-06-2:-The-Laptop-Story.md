@@ -1,5 +1,5 @@
 ---
-layout: nil
+layout: default
 title: "2: The Laptop Story"
 categories:
 - travel

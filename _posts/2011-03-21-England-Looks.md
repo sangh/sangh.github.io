@@ -1,5 +1,5 @@
 ---
-layout: nil
+layout: default
 title: "5: I'm in Love With The Way England Looks"
 categories:
 - travel

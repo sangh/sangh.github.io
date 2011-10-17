@@ -3,7 +3,7 @@ layout: default
 ---
 
 <div id="posts">
-    {% for post in site.posts reversed %}
+    {% for post in site.posts offset: 0 limit: 1 %}
     <div class="post">
         <div>
             <h1> {{ post.title }} </h1>

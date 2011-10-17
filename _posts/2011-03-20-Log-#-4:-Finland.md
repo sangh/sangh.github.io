@@ -1,5 +1,5 @@
 ---
-layout: nil
+layout: default
 title: "Log # 4: Finland"
 categories:
 - travel

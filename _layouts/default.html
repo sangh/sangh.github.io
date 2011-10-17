@@ -1,18 +1,28 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!DOCTYPE html>
 <head>
+    <link
+        rel="StyleSheet"
+        href="{{ site.baseurl }}/css/default.css"
+        type="text/css"
+    />
 	<title>{{ page.title }}</title>
-	
-    <link rel="StyleSheet" href="{{ site.baseurl }}/css/default.css" type="text/css"/>
 </head>
 
-<body id="main">
+<body>
+    <aside>
 
-	<div id="content">
-		<div id="content_body">
-			{{ content }}
-		</div>
-	</div>
+        {% for post in site.posts reversed %}
+        <div>
+            <smaller> {{ post.date | date_to_string }} </smaller>
+            {{ post.title }}
+        </div>
+        {% endfor %}
+
+    </aside>
+
+    <article>
+        <div> {{ content }} </div>
+    </article>
 	
 </body>
 </html>

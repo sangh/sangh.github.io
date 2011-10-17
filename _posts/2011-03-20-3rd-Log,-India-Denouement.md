@@ -1,5 +1,5 @@
 ---
-layout: nil
+layout: default
 title: "3rd Log, India Denouement"
 categories:
 - travel
