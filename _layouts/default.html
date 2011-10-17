@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html>
 <head>
     <link
         rel="StyleSheet"
@@ -9,20 +10,19 @@
 </head>
 
 <body>
-    <aside>
 
+    <article>
+        <div> {{ content }} </div>
+    </article>
+
+    <aside>
         {% for post in site.posts reversed %}
         <div>
             <smaller> {{ post.date | date_to_string }} </smaller>
             {{ post.title }}
         </div>
         {% endfor %}
-
     </aside>
 
-    <article>
-        <div> {{ content }} </div>
-    </article>
-	
 </body>
 </html>
