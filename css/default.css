@@ -1,3 +1,6 @@
 body {
     font-family: serif;
-}        
+}
+header, footer, aside, nav, article {
+    display: block;
+}
