@@ -12,15 +12,13 @@
 <body>
 
     <article>
-        <div> {{ content }} </div>
+        {{ content }}
     </article>
 
     <aside>
         {% for post in site.posts reversed %}
-        <div>
             <smaller> {{ post.date | date_to_string }} </smaller>
             {{ post.title }}
-        </div>
         {% endfor %}
     </aside>
 

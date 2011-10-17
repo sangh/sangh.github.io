@@ -2,13 +2,9 @@
 layout: default
 ---
 
-<div id="posts">
-    {% for post in site.posts offset: 0 limit: 1 %}
-    <div class="post">
-        <smaller> {{ post.date | date_to_string }} </smaller>
-        <h1> {{ post.title }} </h1>
-        {{ post.summary }}
-        {{ post.content }}
-    </div>  
-    {% endfor %}
-</div>
+{% for post in site.posts offset: 0 limit: 1 %}
+    <smaller> {{ post.date | date_to_string }} </smaller>
+    <h1> {{ post.title }} </h1>
+    {{ post.summary }}
+    {{ post.content }}
+{% endfor %}
