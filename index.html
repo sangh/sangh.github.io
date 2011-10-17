@@ -1,8 +1,10 @@
 ---
 layout: default
+title: {{ site.name }}
 ---
 
-{% for post in site.posts offset: 0 limit: 1 %}
+{% for post in site.posts %}
+    <hr/>
     <smaller> {{ post.date | date_to_string }} </smaller>
     <h1> {{ post.title }} </h1>
     {{ post.summary }}
