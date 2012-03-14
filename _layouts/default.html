@@ -11,16 +11,19 @@
 
 <body>
 
+    <aside>
+        {% for post in site.posts reversed %}
+            <p>
+            <smaller> {{ post.date | date_to_string }} </smaller>
+            {{ post.title }}
+            <p/>
+        {% endfor %}
+    </aside>
+
     <article>
         {{ content }}
     </article>
 
-    <aside>
-        {% for post in site.posts %}
-            <smaller> {{ post.date | date_to_string }} </smaller>
-            {{ post.title }}
-        {% endfor %}
-    </aside>
 
 </body>
 </html>
