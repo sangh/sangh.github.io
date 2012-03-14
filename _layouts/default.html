@@ -16,7 +16,7 @@
     </article>
 
     <aside>
-        {% for post in site.posts reversed %}
+        {% for post in site.posts %}
             <smaller> {{ post.date | date_to_string }} </smaller>
             {{ post.title }}
         {% endfor %}

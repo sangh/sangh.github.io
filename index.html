@@ -3,7 +3,7 @@ layout: default
 title: {{ site.name }}
 ---
 
-{% for post in site.posts %}
+{% for post in site.posts reversed %}
     <hr/>
     <smaller> {{ post.date | date_to_string }} </smaller>
     <h1> {{ post.title }} </h1>
