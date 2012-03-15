@@ -11,9 +11,7 @@ sitename: An Avalanche of Advil
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-    <title>
-        {{ page.sitename }}{% if page.title %}&emdash;{{ page.title }}{% endif %}
-    </title>
+    <title>{{ page.sitename }}</title>
     <meta name="author" content="sangh">
 
 	<meta name="viewport" content="width=device-width">
@@ -25,13 +23,7 @@ sitename: An Avalanche of Advil
 <body>
 	<div id="header-container">
 		<header class="wrapper clearfix">
-            <h1 id="title">
-                {% if page.title %}
-                    {{ page.title }}
-                {% else %}
-                    {{page.sitename }}
-                {% endif %}
-            </h1>
+            <h1 id="title">{{page.sitename }}</h1>
 			<nav>
 				<ul>
                     <li><a href="/index.html">Home</a></li>
