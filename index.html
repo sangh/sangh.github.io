@@ -1,12 +1,12 @@
 ---
-layout: default
-title: {{ site.name }}
+layout: index
 ---
 
-{% for post in site.posts reversed %}
-    <hr/>
-    <smaller> {{ post.date | date_to_string }} </smaller>
-    <h1> {{ post.title }} </h1>
-    {{ post.summary }}
-    {{ post.content }}
+{% for post in site.posts %}
+    <br/>
+    <smaller>
+        {{ post.date | date_to_string }}: 
+    </smaller>
+    <a href="{{ post.url }}">{{ post.title }}</a>
 {% endfor %}
+

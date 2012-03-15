@@ -1,29 +1,59 @@
-<!DOCTYPE html>
-<html>
+---
+layout: nil
+sitename: An Avalanche of Advil
+---
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
-    <link
-        rel="StyleSheet"
-        href="{{ site.baseurl }}/css/default.css"
-        type="text/css"
-    />
-	<title>{{ page.title }}</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>
+        {{ page.sitename }}{% if page.title %}&emdash;{{ page.title }}{% endif %}
+    </title>
+    <meta name="author" content="sangh">
+
+	<meta name="viewport" content="width=device-width">
+
+	<link rel="stylesheet" href="/css/style.css">
+
+	<script src="js/libs/modernizr-2.5.3-respond-1.1.0.min.js"></script>
 </head>
-
 <body>
+	<div id="header-container">
+		<header class="wrapper clearfix">
+            <h1 id="title">
+                {% if page.title %}
+                    {{ page.title }}
+                {% else %}
+                    {{page.sitename }}
+                {% endif %}
+            </h1>
+			<nav>
+				<ul>
+                    <li><a href="/index.html">Home</a></li>
+					<li><a href="/about.html">About</a></li>
+				</ul>
+			</nav>
+		</header>
+	</div>
+	<div id="main-container">
+		<div id="main" class="wrapper clearfix">
+			
+            {{ content }}
+			
+		</div> <!-- #main -->
+	</div> <!-- #main-container -->
 
-    <aside>
-        {% for post in site.posts reversed %}
-            <p>
-            <smaller> {{ post.date | date_to_string }} </smaller>
-            {{ post.title }}
-            <p/>
-        {% endfor %}
-    </aside>
+	<div id="footer-container">
+		<footer class="wrapper">
+			<h3>GitHub  the Initesz  jukell</h3>
+		</footer>
+	</div>
 
-    <article>
-        {{ content }}
-    </article>
-
-
+<script src="js/script.js"></script>
 </body>
 </html>
