@@ -14,8 +14,8 @@ body { margin: 0; font-size: 1em; line-height: 100%; }
 ::-moz-selection { background: #5378c1; color: #ffffff; text-shadow: none; }
 ::selection {      background: #5378c1; color: #ffffff; text-shadow: none; }
 
-a { color: #1076fe; }
-a:visited { color: #982a9b; }
+a { color: #2086ff; }
+a:visited { color: #a83aab; }
 a:hover { color: #ffffff; }
 a:focus { outline: thin dotted; }
 a:hover, a:active { outline: 0; }
@@ -92,7 +92,7 @@ body{ font:18px/28px Georgia, "Times New Roman", Times, serif; line-height: 140%
 #footer-container,
 #main aside{
 	background:#000000;
-    font-size: 85%;
+    font-size: 90%;
 }
 
 #title{ color:white; }
