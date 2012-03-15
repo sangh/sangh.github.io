@@ -16,7 +16,14 @@ body { margin: 0; font-size: 1em; line-height: 100%; }
 ::selection { background: #fe57a1; color: #fff; text-shadow: none; }
 */
 
+/*
 a { color: #00e; }
+a:visited { color: #551a8b; }
+a:hover { color: #06e; }
+a:focus { outline: thin dotted; }
+a:hover, a:active { outline: 0; }
+*/
+a { color: #ffffff; }
 a:visited { color: #551a8b; }
 a:hover { color: #06e; }
 a:focus { outline: thin dotted; }
