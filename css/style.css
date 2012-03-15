@@ -11,20 +11,11 @@ html { font-size: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 10
 html, button, input, select, textarea { font-family: sans-serif; color: #222; }
 body { margin: 0; font-size: 1em; line-height: 100%; }
 
-/*
-::-moz-selection { background: #fe57a1; color: #fff; text-shadow: none; }
-::selection { background: #fe57a1; color: #fff; text-shadow: none; }
-*/
+::-moz-selection { background: #5378c1; color: #ffffff; text-shadow: none; }
+::selection {      background: #5378c1; color: #ffffff; text-shadow: none; }
 
-/*
-a { color: #00e; }
-a:visited { color: #551a8b; }
-a:hover { color: #06e; }
-a:focus { outline: thin dotted; }
-a:hover, a:active { outline: 0; }
-*/
-a { color: #06e; }
-a:visited { color: #881a8b; }
+a { color: #1076fe; }
+a:visited { color: #982a9b; }
 a:hover { color: #ffffff; }
 a:focus { outline: thin dotted; }
 a:hover, a:active { outline: 0; }
@@ -101,15 +92,13 @@ body{ font:18px/28px Georgia, "Times New Roman", Times, serif; line-height: 140%
 #footer-container,
 #main aside{
 	background:#000000;
-    font-size: 70%;
+    font-size: 85%;
 }
 
 #title{ color:white; }
 
-/*
-::-moz-selection { background: #000000; color: #fff; text-shadow: none; }
-::selection      { background: #000000; color: #fff; text-shadow: none; }
-*/
+::-moz-selection { background: #5378c1; color: #ffffff; text-shadow: none; }
+::selection      { background: #5378c1; color: #ffffff; text-shadow: none; }
 
 /* ==============
     MOBILE: Menu
