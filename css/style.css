@@ -92,7 +92,6 @@ body{ font:18px/28px Georgia, "Times New Roman", Times, serif; line-height: 140%
 #footer-container,
 #main aside{
 	background:#000000;
-    font-size: 90%;
 }
 
 #title{ color:white; }
