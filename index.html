@@ -2,11 +2,9 @@
 layout: index
 ---
 
-<div style="a:hover { color: #000000; }">
 {% for post in site.posts %}
     <br/>
     {{ post.date | date_to_string }}: 
     <a href="{{ post.url }}">{{ post.title }}</a>
 {% endfor %}
-</div>
 
