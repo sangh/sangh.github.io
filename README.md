@@ -1,7 +1,7 @@
-sangh.github.com
+sangh.github.io
 ================
 
-This is the data for the blog which can be found [here](http://sangh.github.com).
+This is the data for the blog which can be found [here](http://github.com/sangh).
 
 
 Intent
