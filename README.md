@@ -1,10 +1,12 @@
 sangh.github.io
 ================
 
-This is the data for the blog which can be found [here](http://github.com/sangh).
+This is the repo for the blog [sangh.github.io](https://sangh.github.io).
 
 
 Intent
 ======
 
-This blog is probably not useful or fun for anyone, but I like the idea of having it and playing around with the jykell and HTML 5 stuff.
+This blog is probably not useful or fun for anyone but me.
+
+*You have been warned.*
