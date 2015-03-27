@@ -1,0 +1,198 @@
+#!/usr/bin/env python3.4
+
+import os
+import re
+import sys
+import json
+import html
+import subprocess
+import configparser
+
+# All of these external programs need to take stdin and print to stdout.
+# Also pygmentize will have the language added as the last argument.
+# Example config file:
+#   [Programs]
+#   css compressor = /usr/local/bin/csscompressor
+#   cmark = /usr/local/bin/cmark
+#       -t html --smart --normalize
+#   pygmentize = pygmentize -f html -l
+#   html compressor = htmlminify
+
+config = configparser.ConfigParser()
+if 1 != len(config.read(os.path.expanduser('~/.pubrc'), encoding="UTF-8")):
+    raise Exception("Could not read config file.")
+def get_config(c):
+    global config
+    return config['Programs'][c].replace("\n", " ").split(" ")
+cmd_css = get_config('css compressor')
+cmd_cmark = get_config('cmark')
+cmd_pyg = get_config('pygmentize')
+#cmd_html = get_config('html compressor')
+
+def call(stdin, cmd):
+    """Pass stuff to stdin, read stdout, error if retcode or stderr used."""
+    p = subprocess.Popen(   cmd,
+                            bufsize=-1,
+                            universal_newlines=True,
+                            stdin=subprocess.PIPE,
+                            stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE)
+    o, e = p.communicate(input=stdin)
+    if p.returncode != 0 or len(e) != 0:
+        raise Exception("Command failed: \n" + \
+                        "Command = " + str(cmd) + "\n" + \
+                        "Return code = " + str(p.returncode) + "\n" + \
+                        "Stdard Error = " + str(e) + "\n")
+    return o
+
+def read_file(name, bylines):
+    with open(  name,
+                mode='rt',
+                buffering=-1,
+                encoding='UTF-8',
+                errors='strict',
+                newline=None) as f:
+        if bylines:
+            lines = []
+            for line in f:
+                lines.append(line)
+            return lines
+        else:
+            return f.read(-1)
+
+def write_file(name, contents):
+    with open(  name,
+                mode='wt',
+                buffering=-1,
+                encoding='UTF-8',
+                errors='strict',
+                newline='\n') as f:
+        if len(contents) != f.write(contents):
+            raise Exception("Could not write complete file: " + str(name))
+
+def mkcss(src_file, dst_file):
+    write_file(dst_file, call(read_file(src_file, False), cmd_css))
+
+# We just make the css here, and now `default.css` is a just a magic value
+# that is written into `template.html`
+mkcss('work/original.css', 'default.css')
+
+# Process through cmark.
+def md2html(md):
+    return call(md, cmd_cmark)
+
+# Now we grab the template and write a function to apply it to a page.
+template = read_file('work/template.html', False)
+def apply_template(title, content, prev_link=None, next_link=None):
+    global template
+    if prev_link:
+        prev_html = '<li><a href="%s">&lt;&nbsp;Previous</a></li>' % prev_link
+    else:
+        prev_html = ""
+    t = template.replace("{PREV}", prev_html)
+    if next_link:
+        next_html = '<li><a href="%s">Next&nbsp;&gt;</a></li>' % next_link
+    else:
+        next_html = ""
+    t = t.replace("{NEXT}", next_html)
+    t = t.replace("{TITLE}", title)
+    t = t.replace("{CONTENT}", content)
+    return t
+
+mkpage_re_all_equals = re.compile("^===+$")
+mkpage_re_code = re.compile("""<pre><code>(.*?)</code></pre>""", re.DOTALL)
+def mkpage(src_file, dst_file, prev_link=None, next_link=None):
+    global mkpage_re_all_equals
+    global mkpage_re_code
+    lines = read_file(src_file, True)
+    # We strip off the first two lines, pass the rest as md.
+    title = lines[0].strip()
+    if not mkpage_re_all_equals.match(lines[1]):
+        raise Exception("Second line of md is not all equals.")
+    content = "".join(lines[2:])
+    if not content:
+        raise Exception("No content for: " + str(src_file))
+    content = md2html(content)
+
+    def pygmatize(match):
+        # match.groups() is a tuple of matched _groups_, should be only one.
+        # match.group(1) is just the part between the tags.
+        start_tag = "<pre><code>"
+        end_tag = "</code></pre>"
+        if 1 != len(match.groups()):
+            raise Exception("More than 1 group passed to pygmatize.")
+        code = match.group(1).split("\n")
+        if 1 == len(code):
+            return start_tag + match.group(1) + end_tag
+        lang = code[0].strip().lower()
+        if '[' != lang[0] or ']' != lang[-1]:
+            return start_tag + match.group(1) + end_tag
+        code = "\n".join(code[1:-1])
+        code = html.unescape(code)
+        return call(code, cmd_pyg + [lang[1:-1], ])
+
+    content = mkpage_re_code.sub(pygmatize, content)
+    content = apply_template(title, content, prev_link, next_link)
+    write_file(dst_file, content)
+    return title
+
+mkpage('work/about.md', 'about.html')
+mkpage('work/404.md', '404.html')
+
+index = []
+posts = sorted(os.listdir('posts'))
+for i in range(len(posts)):
+    p = posts[i]
+    if ".md" != p[-3:]:
+        raise Exception("Bad file name: " + str(p))
+    outfn = p[:-2] + "html"
+    date = p[0:10]
+    if i > 0:
+        prev_link = posts[i-1][:-2] + "html"
+    else:
+        prev_link = None
+    if i < len(posts)-1:
+        next_link = posts[i+1][:-2] + "html"
+    else:
+        next_link = None
+    title = mkpage('posts/' + p, outfn, prev_link, next_link)
+    index.append((date, title, outfn))
+index.reverse()
+
+index_md = ""
+for p in index:
+    index_md = index_md + "  *  %s [%s](%s)\n" % p
+
+write_file('index.html', apply_template("Archive", md2html(index_md)))
+
+# RSS by hand, ugh.
+import datetime
+import email.utils
+rss_item_template = """  <item>
+    <title>%s</title>
+    <link>https://sangh.github.io/%s</link>
+    <pubDate>%s</pubDate>
+  </item>
+"""
+rss_items = ""
+for p in index:
+    dt = datetime.datetime(int(p[0][0:4]), int(p[0][5:7]), int(p[0][8:10]))
+    pubdate = email.utils.format_datetime(dt)
+    rss_items = rss_items + rss_item_template % (p[1], p[2], pubdate)
+
+write_file('rss.rss',"""<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>sangh.github.io</title>
+    <description>An Avalanche of Advil</description>
+    <link>https://sangh.github.io/</link>
+    <lastBuildDate>%s</lastBuildDate>
+    <pubDate>%s</pubDate>
+  %s</channel>
+</rss>
+""" % (
+    email.utils.format_datetime(datetime.datetime.today()),
+    email.utils.format_datetime(datetime.datetime.today()),
+    rss_items,
+))
+
