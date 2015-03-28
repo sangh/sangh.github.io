@@ -180,19 +180,22 @@ for p in index:
     pubdate = email.utils.format_datetime(dt)
     rss_items = rss_items + rss_item_template % (p[1], p[2], pubdate)
 
-write_file('rss.rss',"""<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
-  <channel>
-    <title>sangh.github.io</title>
-    <description>An Avalanche of Advil</description>
-    <link>https://sangh.github.io/</link>
-    <lastBuildDate>%s</lastBuildDate>
-    <pubDate>%s</pubDate>
-  %s</channel>
-</rss>
-""" % (
-    email.utils.format_datetime(datetime.datetime.today()),
-    email.utils.format_datetime(datetime.datetime.today()),
-    rss_items,
-))
+rss_head = """<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel>
+  <title>sangh.github.io</title>
+  <description>An Avalanche of Advil</description>
+  <link>https://sangh.github.io/</link>
+"""
+rss_build_date = """  <lastBuildDate>%s</lastBuildDate>
+""" % (email.utils.format_datetime(datetime.datetime.today()), )
+rss_foot = """%s</channel></rss>
+""" % (rss_items, )
 
+# Don't update if lastBuildDate is the only change.
+old_rss = read_file('rss.rss', True)
+if "".join(old_rss[:5]) != rss_head:
+    raise Exception('Header mismatched on previous rss feed.')
+if not 'lastBuildDate' in old_rss[5]:
+    raise Exception('Something amiss w/old rss, build date is not found.')
+if "".join(old_rss[6:]) != rss_foot:
+    write_file('rss.rss', rss_head + rss_build_date + rss_foot)
