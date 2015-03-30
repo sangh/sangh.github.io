@@ -3,9 +3,11 @@
 import os
 import re
 import sys
-import json
 import html
+import json
+import datetime
 import subprocess
+import email.utils
 import configparser
 
 # All of these external programs need to take stdin and print to stdout.
@@ -139,35 +141,44 @@ def mkpage(src_file, dst_file, prev_link=None, next_link=None):
 mkpage('work/about.md', 'about.html')
 mkpage('work/404.md', '404.html')
 
+class Post:
+    def __init__(self, filename):
+        if ".md" != filename[-3:]:
+            raise Exception("Bad file name: " + str(p))
+        self.dt = datetime.datetime.strptime(filename[0:10], '%Y-%m-%d')
+        self.outfilename = filename[:-2] + "html"
+        self.filename = filename
+
 index = []
-posts = sorted(os.listdir('posts'))
+posts = []
+for filename in sorted(os.listdir('posts')):
+    post = Post(filename)
+    if datetime.datetime.now() < post.dt:
+        print("Ignoring post: " + filename)
+    else:
+        posts.append(post)
+
 for i in range(len(posts)):
-    p = posts[i]
-    if ".md" != p[-3:]:
-        raise Exception("Bad file name: " + str(p))
-    outfn = p[:-2] + "html"
-    date = p[0:10]
     if i > 0:
-        prev_link = posts[i-1][:-2] + "html"
+        prev_link = posts[i-1].outfilename
     else:
         prev_link = None
     if i < len(posts)-1:
-        next_link = posts[i+1][:-2] + "html"
+        next_link = posts[i+1].outfilename
     else:
         next_link = None
-    title = mkpage('posts/' + p, outfn, prev_link, next_link)
-    index.append((date, title, outfn))
+    title = mkpage('posts/' + posts[i].filename, posts[i].outfilename, prev_link, next_link)
+    index.append((posts[i].dt, title, posts[i].outfilename))
 index.reverse()
-
 index_md = ""
 for p in index:
-    index_md = index_md + "  *  %s [%s](%s)\n" % p
+    index_md = index_md + "  *  %s [%s](%s)\n" % (  p[0].strftime('%Y-%m-%d'),
+                                                    p[1],
+                                                    p[2], )
 
 write_file('index.html', apply_template("Archive", md2html(index_md)))
 
 # RSS by hand, ugh.
-import datetime
-import email.utils
 rss_item_template = """  <item>
     <title>%s</title>
     <link>https://sangh.github.io/%s</link>
@@ -176,8 +187,7 @@ rss_item_template = """  <item>
 """
 rss_items = ""
 for p in index:
-    dt = datetime.datetime(int(p[0][0:4]), int(p[0][5:7]), int(p[0][8:10]))
-    pubdate = email.utils.format_datetime(dt)
+    pubdate = email.utils.format_datetime(p[0])
     rss_items = rss_items + rss_item_template % (p[1], p[2], pubdate)
 
 rss_head = """<?xml version="1.0" encoding="UTF-8"?>
