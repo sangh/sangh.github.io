@@ -19,6 +19,8 @@ import configparser
 #       -t html --smart --normalize
 #   pygmentize = pygmentize -f html -l
 #   html compressor = htmlminify
+#   [Options]
+#   minify = True
 
 config = configparser.ConfigParser()
 if 1 != len(config.read(os.path.expanduser('~/.pubrc'), encoding="UTF-8")):
@@ -30,6 +32,12 @@ cmd_css = get_config('css compressor')
 cmd_cmark = get_config('cmark')
 cmd_pyg = get_config('pygmentize')
 cmd_html = get_config('html compressor')
+if config['Options']['minify'].lower() == 'true':
+    opt_minify = True
+elif config['Options']['minify'].lower() == 'false':
+    opt_minify = False
+else:
+    raise Exception("Invalid option minify: " + config['Options']['minify'])
 
 def call(stdin, cmd):
     """Pass stuff to stdin, read stdout, error if retcode or stderr used."""
@@ -73,7 +81,10 @@ def write_file(name, contents):
             raise Exception("Could not write complete file: " + str(name))
 
 def mkcss(src_file, dst_file):
-    write_file(dst_file, call(read_file(src_file, False), cmd_css))
+    css = read_file(src_file, False)
+    if opt_minify:
+        css = call(css, cmd_css)
+    write_file(dst_file, css)
 
 # We just make the css here, and now `default.css` is a just a magic value
 # that is written into `template.html`
@@ -135,7 +146,8 @@ def mkpage(src_file, dst_file, prev_link=None, next_link=None):
 
     content = mkpage_re_code.sub(pygmatize, content)
     content = apply_template(title, content, prev_link, next_link)
-    content = call(content, cmd_html)
+    if opt_minify:
+        content = call(content, cmd_html)
     write_file(dst_file, content)
     return title
 
@@ -177,8 +189,10 @@ for p in index:
                                                     p[1],
                                                     p[2], )
 
-write_file('index.html',
-    call(apply_template("Archive", md2html(index_md)), cmd_html))
+index_file = apply_template("Archive", md2html(index_md))
+if opt_minify:
+    index_file = call(index_file, cmd_html)
+write_file('index.html', index_file)
 
 # RSS by hand, ugh.
 rss_item_template = """  <item>
