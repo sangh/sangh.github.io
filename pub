@@ -29,7 +29,7 @@ def get_config(c):
 cmd_css = get_config('css compressor')
 cmd_cmark = get_config('cmark')
 cmd_pyg = get_config('pygmentize')
-#cmd_html = get_config('html compressor')
+cmd_html = get_config('html compressor')
 
 def call(stdin, cmd):
     """Pass stuff to stdin, read stdout, error if retcode or stderr used."""
@@ -135,6 +135,7 @@ def mkpage(src_file, dst_file, prev_link=None, next_link=None):
 
     content = mkpage_re_code.sub(pygmatize, content)
     content = apply_template(title, content, prev_link, next_link)
+    content = call(content, cmd_html)
     write_file(dst_file, content)
     return title
 
@@ -176,7 +177,8 @@ for p in index:
                                                     p[1],
                                                     p[2], )
 
-write_file('index.html', apply_template("Archive", md2html(index_md)))
+write_file('index.html',
+    call(apply_template("Archive", md2html(index_md)), cmd_html))
 
 # RSS by hand, ugh.
 rss_item_template = """  <item>
