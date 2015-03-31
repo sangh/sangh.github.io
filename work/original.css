@@ -1,38 +1,39 @@
 @media(min-width:508px) {
-    article {
-    width: 500px;
-    text-align: justify;
-    margin: auto;
-    font-size: 16.2px;
+    body {
+        width: 500px;
+        font-size: 16.2px;
     }
     pre {
-        font-size: 11px;
+        font-size: 12px;
     }
 }
 @media(max-width:508px) {
-    article {
-    text-align: justify;
-    font-size: 16px;
+    body {
+        text-align: justify;
+        font-size: 11.5px;
     }
     pre {
-        font-size: 11px;
-    }
-}
-@media(max-width:360px) {
-    article {
-    font-size: 10px;
+        font-size: 10px;
     }
 }
 body {
+    text-align: justify;
+    margin: auto;
     font-family: "Times New Roman", serif;
     line-height: 1.5;
     color: #222;
+    padding: 7px;
 }
 article h2 {
     line-height: 1.1;
     padding-top: 10px;
     padding-bottom: 10px;
     margin: 0;
+    font-size: 120%;
+}
+img {
+    max-width: 100%;
+    height: auto;
 }
 p code {
     background-color: #eee;
@@ -41,16 +42,15 @@ p code {
     font-size: 78%;
 }
 code {
-    font-family: "Consolas", "Menlo", "Monaco", "Lucida Console", "Liberation Mono", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", monospace, sans-serif;
+    font-family: "Consolas", "Menlo", "Monaco", "Lucida Console",
+        "Liberation Mono", "DejaVu Sans Mono", "Bitstream Vera Sans Mono",
+        "Courier New", monospace, sans-serif;
 }
 pre {
     background-color: #111;
     color: white;
     padding: 10px;
     overflow: auto;
-}
-article h2 {
-    font-size: 120%;
 }
 a {
     text-decoration: none;
@@ -63,7 +63,7 @@ a:visited {
     color: #466ca4;
 }
 nav {
-    width: 500px;
+    width: 100%;
     margin: auto;
     border-bottom: 1px solid black;
     line-height: 20px;
@@ -80,9 +80,9 @@ nav a, nav a:visited {
     color: #000;
 }
 nav ul li a {
-    padding-left: 10px;
-    font-size: 18px;
+    font-size: 120%;
     font-weight: bold;
+    padding-left: 10px;
 }
 nav ul li:before {
     content: '\2022'
@@ -99,7 +99,7 @@ nav ul li:first-child:before {
 footer {
     font-family: "Times New Roman", serif;
     color: #111;
-    width: 500px;
+    width: 100%;
     margin: auto;
     border-top: 1px solid black;
     line-height: 15px;
@@ -110,15 +110,15 @@ footer ul {
 footer ul li {
     list-style-type: none;
     display: inline-block;
-    margin-left: 10px;
-    font-size: 15px;
+    margin-left: 8px;
+    font-size: 80%;
     font-weight: lighter;
 }
 footer a, nav a:visited {
     color: #000;
 }
 footer ul li a {
-    padding-left: 10px;
+    padding-left: 8px;
 }
 footer ul li a img {
     height: 10px;
