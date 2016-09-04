@@ -167,7 +167,7 @@ def mkpage(src_file, dst_file, prev_link=None, next_link=None, dt=None):
     write_file(dst_file, content)
     return title
 
-mkpage('work/about.md', 'about.html')
+mkpage('work/nocomments.md', 'nocomments.html')
 mkpage('work/404.md', '404.html')
 
 class Post:

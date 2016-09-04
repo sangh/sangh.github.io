@@ -1,5 +1,5 @@
-About
-=====
+Where Are the Comments?
+=======================
 
 This site is my lame attempt at a blog.  I do not post often and don't want to
 feel like I have to keep up with comments.  It seems like if you have comments
