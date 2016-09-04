@@ -96,7 +96,7 @@ def md2html(md):
 
 # Now we grab the template and write a function to apply it to a page.
 template = read_file('work/template.html', False)
-def apply_template(title, content, prev_link=None, next_link=None):
+def apply_template(title, content, prev_link=None, next_link=None, dt=None):
     global template
     if prev_link:
         prev_html = '<li><a href="%s">&lt;&nbsp;Previous</a></li>' % prev_link
@@ -109,12 +109,28 @@ def apply_template(title, content, prev_link=None, next_link=None):
         next_html = ""
     t = t.replace("{NEXT}", next_html)
     t = t.replace("{TITLE}", title)
+    if dt:
+        day_str = " %d<sup>%s</sup>, " % (
+            dt.day,
+            {
+                1: "st",
+                2: "nd",
+                3: "rd",
+            }.get(dt.day if dt.day < 20 else dt.day % 10, "th"),
+        )
+        date = '<time datetime="%s">%s</time>' % (
+            dt.strftime('%Y-%m-%d'),
+            dt.strftime('%B' + day_str + '%Y'),
+        )
+    else:
+        date = ""
+    t = t.replace("{DATE}", date)
     t = t.replace("{CONTENT}", content)
     return t
 
 mkpage_re_all_equals = re.compile("^===+$")
 mkpage_re_code = re.compile("""<pre><code>(.*?)</code></pre>""", re.DOTALL)
-def mkpage(src_file, dst_file, prev_link=None, next_link=None):
+def mkpage(src_file, dst_file, prev_link=None, next_link=None, dt=None):
     global mkpage_re_all_equals
     global mkpage_re_code
     lines = read_file(src_file, True)
@@ -145,7 +161,7 @@ def mkpage(src_file, dst_file, prev_link=None, next_link=None):
         return call(code, cmd_pyg + [lang[1:-1], ])
 
     content = mkpage_re_code.sub(pygmatize, content)
-    content = apply_template(title, content, prev_link, next_link)
+    content = apply_template(title, content, prev_link, next_link, dt)
     if opt_minify:
         content = call(content, cmd_html)
     write_file(dst_file, content)
@@ -180,7 +196,7 @@ for i in range(len(posts)):
         next_link = posts[i+1].outfilename
     else:
         next_link = None
-    title = mkpage('posts/' + posts[i].filename, posts[i].outfilename, prev_link, next_link)
+    title = mkpage('posts/' + posts[i].filename, posts[i].outfilename, prev_link, next_link, posts[i].dt)
     index.append((posts[i].dt, title, posts[i].outfilename))
 index.reverse()
 index_md = ""
