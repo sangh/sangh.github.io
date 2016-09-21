@@ -224,9 +224,10 @@ for p in index:
     rss_items = rss_items + rss_item_template % (p[1], p[2], p[2], pubdate)
 
 rss_head = """<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0"><channel>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel>
+  <atom:link href="https://sangh.github.io/rss.rss" rel="self" type="application/rss+xml" />
   <title>sangh.github.io</title>
-  <description>An Avalanche of Advil</description>
+  <description>RSS for sangh.github.io</description>
   <link>https://sangh.github.io/</link>
 """
 rss_build_date = """  <lastBuildDate>%s</lastBuildDate>
@@ -236,9 +237,9 @@ rss_foot = """%s</channel></rss>
 
 # Don't update if lastBuildDate is the only change.
 old_rss = read_file('rss.rss', True)
-if "".join(old_rss[:5]) != rss_head:
+if "".join(old_rss[:6]) != rss_head:
     raise Exception('Header mismatched on previous rss feed.')
-if not 'lastBuildDate' in old_rss[5]:
+if not 'lastBuildDate' in old_rss[6]:
     raise Exception('Something amiss w/old rss, build date is not found.')
-if "".join(old_rss[6:]) != rss_foot:
+if "".join(old_rss[7:]) != rss_foot:
     write_file('rss.rss', rss_head + rss_build_date + rss_foot)
