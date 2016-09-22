@@ -3,10 +3,13 @@ body {
     margin: auto;
     color: #222;
 }
+article h1 a {
+    color:black;
+    text-decoration:none;
+}
 article h2 {
     margin-bottom: 0.1em;
     margin-top: 0.5em;
-    font-size: 150%;
 }
 article time {
     opacity: 0.6;
