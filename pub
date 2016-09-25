@@ -16,7 +16,7 @@ import configparser
 #   [Programs]
 #   css compressor = /usr/local/bin/csscompressor
 #   cmark = /usr/local/bin/cmark
-#       -t html --smart --normalize
+#       -t html --smart --normalize --validate-utf8
 #   pygmentize = pygmentize -f html -l
 #   html compressor = htmlminify
 #   [Options]
