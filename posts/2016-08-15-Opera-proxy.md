@@ -25,3 +25,10 @@ the system ones---yay!
 
 I'm writing this because just maybe it'll be picked up by search engines and
 found by someone else in the same situation.
+
+
+Update (2017-03-21)
+-------------------
+
+I just realized that the proxy does not apply if you are in a private window,
+it uses the default (system) connection method.  Oh well.
