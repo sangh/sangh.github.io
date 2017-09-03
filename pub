@@ -224,7 +224,7 @@ for p in index:
     rss_items = rss_items + rss_item_template % (p[1], p[2], p[2], pubdate)
 
 rss_head = """<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel>
+<rss version="2.0" xmlns:atom="https://www.w3.org/2005/Atom"><channel>
   <atom:link href="https://sangh.github.io/rss.rss" rel="self" type="application/rss+xml" />
   <title>sangh.github.io</title>
   <description>RSS for sangh.github.io</description>
