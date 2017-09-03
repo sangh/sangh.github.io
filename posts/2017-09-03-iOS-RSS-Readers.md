@@ -27,4 +27,4 @@ Off the top of my head I want the RSS client to:
 Anyway, I'm writing this article to basically say *FINALLY*.  I recently found
 out that [Fiery Feeds](http://cocoacake.net/apps/fiery/ "Fiery Feeds' home page.")
 does everything I want and does it loads better than I ever could have if I
-did ever manage scrape together my own shitty little app.
+did ever manage to scrape together my own shitty little app.
