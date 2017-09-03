@@ -214,7 +214,7 @@ write_file('index.html', index_file)
 rss_item_template = """  <item>
     <title>%s</title>
     <link>https://sangh.github.io/%s</link>
-    <guid>https://sangh.github.io/%s</guid>
+    <guid>%s</guid>
     <pubDate>%s</pubDate>
   </item>
 """
