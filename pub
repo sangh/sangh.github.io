@@ -141,6 +141,11 @@ def mkpage(src_file, dst_file, prev_link=None, next_link=None, dt=None):
     content = "".join(lines[2:])
     if not content:
         raise Exception("No content for: " + str(src_file))
+    summary = content[:177]
+    if len(summary) == 177:
+        summary = summary.strip() + "..."
+    else:
+        summary = summary.strip()
     content = md2html(content)
 
     def pygmatize(match):
@@ -165,7 +170,7 @@ def mkpage(src_file, dst_file, prev_link=None, next_link=None, dt=None):
     if opt_minify:
         content = call(content, cmd_html)
     write_file(dst_file, content)
-    return title
+    return title, summary
 
 mkpage('work/nocomments.md', 'nocomments.html')
 mkpage('work/404.md', '404.html')
@@ -196,8 +201,13 @@ for i in range(len(posts)):
         next_link = posts[i+1].outfilename
     else:
         next_link = None
-    title = mkpage('posts/' + posts[i].filename, posts[i].outfilename, prev_link, next_link, posts[i].dt)
-    index.append((posts[i].dt, title, posts[i].outfilename))
+    title, summary = mkpage(
+            'posts/' + posts[i].filename,
+            posts[i].outfilename,
+            prev_link,
+            next_link,
+            posts[i].dt)
+    index.append((posts[i].dt, title, posts[i].outfilename, summary))
 index.reverse()
 index_md = ""
 for p in index:
@@ -216,12 +226,15 @@ rss_item_template = """  <item>
     <link>https://sangh.github.io/%s</link>
     <guid>%s</guid>
     <pubDate>%s</pubDate>
+    <summary>%s</summary>
+    <content type="text/html" src="https://sangh.github.io/%s" />
   </item>
 """
 rss_items = ""
 for p in index:
     pubdate = email.utils.format_datetime(p[0])
-    rss_items = rss_items + rss_item_template % (p[1], p[2], p[2], pubdate)
+    rss_items = rss_items + rss_item_template % (
+            p[1], p[2], p[2], pubdate, p[3], p[2])
 
 rss_head = """<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="https://www.w3.org/2005/Atom"><channel>
