@@ -1,0 +1,3 @@
+# Make GitHub detect this as Markdown instead of HTML.
+* linguist-vendored
+*.md linguist-vendored=false
