@@ -88,7 +88,7 @@ def mkcss(src_file, dst_file):
 
 # We just make the css here, and now `default.css` is a just a magic value
 # that is written into `template.html`
-mkcss('work/original.css', 'default.css')
+mkcss('work/default.css', 'default.css')
 
 # Process through cmark.
 def md2html(md):
